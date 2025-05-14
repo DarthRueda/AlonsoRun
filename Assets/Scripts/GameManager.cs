@@ -1,44 +1,55 @@
 using System.Collections;
-using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
-using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject gameOverScreen;
     [SerializeField] private TMP_Text scoreText;
     [SerializeField] private TMP_Text recordText;
-    [SerializeField] private float initialScrollSpeed;
+    [SerializeField] private float initialScrollSpeed = 5f;
+
     private int score;
     private int highScore;
     private float timer;
     private float ScrollSpeed;
 
     public static GameManager Instance { get; private set; }
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
         {
-            Destroy(this);
+            Destroy(gameObject);
+            return;
         }
-        else
-        {
-            Instance = this;
-        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
     {
-        highScore = PlayerPrefs.GetInt("HighScore", 0);
-        if (recordText != null)
+        if (gameOverScreen != null)
         {
-            recordText.text = string.Format("{0:00000}", highScore);
+            gameOverScreen.SetActive(false);
         }
+
+        LoadHighScore();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         UpdateScore();
         UpdateScrollSpeed();
@@ -46,26 +57,39 @@ public class GameManager : MonoBehaviour
 
     public void ShowGameOverScreen()
     {
-        gameOverScreen.SetActive(true);
-    } 
+        if (gameOverScreen != null)
+        {
+            Debug.Log("Showing Game Over Screen!");
+
+            if (!gameOverScreen.activeInHierarchy)
+            {
+                gameOverScreen.SetActive(true);
+            }
+
+            Debug.Log("GameOverScreen is active: " + gameOverScreen.activeSelf);
+        }
+        else
+        {
+            Debug.LogError("GameOverScreen is not assigned!");
+        }
+    }
 
     public void RestartScene()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         Time.timeScale = 1f;
+        timer = 0f;
+        score = 0;
     }
 
     private void UpdateScore()
     {
-        int scorePerSeconds = 10;
-
+        int scorePerSecond = 10;
         timer += Time.deltaTime;
-        score = (int)(timer * scorePerSeconds);
+        score = (int)(timer * scorePerSecond);
 
         if (scoreText != null)
-        {
             scoreText.text = string.Format("{0:00000}", score);
-        }
 
         UpdateHighScore();
     }
@@ -79,15 +103,23 @@ public class GameManager : MonoBehaviour
             PlayerPrefs.Save();
 
             if (recordText != null)
-            {
                 recordText.text = string.Format("{0:00000}", highScore);
-            }
         }
     }
 
-    public int GetHighScore()
+    private void LoadHighScore()
     {
-        return highScore;
+        highScore = PlayerPrefs.GetInt("HighScore", 0);
+
+        if (recordText != null)
+            recordText.text = string.Format("{0:00000}", highScore);
+    }
+
+    private void UpdateScrollSpeed()
+    {
+        // Update the scroll speed based on time
+        float speedDivider = 10f;
+        ScrollSpeed = initialScrollSpeed + timer / speedDivider;
     }
 
     public float GetScrollSpeed()
@@ -95,10 +127,9 @@ public class GameManager : MonoBehaviour
         return ScrollSpeed;
     }
 
-    private void UpdateScrollSpeed()
+    public int GetHighScore()
     {
-        float speedDivider = 10f;
-        ScrollSpeed = initialScrollSpeed + timer / speedDivider;
+        return highScore;
     }
 
     public void ApplyBlancaYNegraEffect(float duration)
@@ -113,5 +144,29 @@ public class GameManager : MonoBehaviour
         ScrollSpeed *= 0.3f;
         yield return new WaitForSeconds(duration);
         ScrollSpeed = originalSpeed;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "Infinito")
+        {
+
+            gameOverScreen = GameObject.Find("GameOverScreen");
+            scoreText = GameObject.Find("Score")?.GetComponent<TMP_Text>();
+            recordText = GameObject.Find("Record")?.GetComponent<TMP_Text>();
+
+            if (gameOverScreen != null)
+            {
+                gameOverScreen.SetActive(false);
+            }
+            LoadHighScore();
+        }
+    }
+
+    public void StartGame()
+    {
+        timer = 0f;
+        score = 0;
+        SceneManager.LoadScene("Infinito");
     }
 }
