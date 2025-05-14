@@ -21,7 +21,7 @@ public class PowerSpawner : MonoBehaviour
 
             foreach (var powerUp in powerUps)
             {
-                if (powerUp.CompareTag("Invencible") || powerUp.CompareTag("DobleSalto") || powerUp.CompareTag("BlancaYNegra"))
+                if (powerUp.CompareTag("Invencible") || powerUp.CompareTag("DobleSalto"))
                 {
                     filteredPowerUps.Add(powerUp);
                 }

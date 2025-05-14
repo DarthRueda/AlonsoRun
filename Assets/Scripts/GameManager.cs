@@ -59,14 +59,20 @@ public class GameManager : MonoBehaviour
     {
         if (gameOverScreen != null)
         {
-            Debug.Log("Showing Game Over Screen!");
-
             if (!gameOverScreen.activeInHierarchy)
             {
                 gameOverScreen.SetActive(true);
             }
 
-            Debug.Log("GameOverScreen is active: " + gameOverScreen.activeSelf);
+            GameObject mainCamera = Camera.main?.gameObject;
+            if (mainCamera != null)
+            {
+                AudioSource cameraAudioSource = mainCamera.GetComponent<AudioSource>();
+                if (cameraAudioSource != null && cameraAudioSource.isPlaying)
+                {
+                    cameraAudioSource.Stop();
+                }
+            }
         }
         else
         {
@@ -117,7 +123,6 @@ public class GameManager : MonoBehaviour
 
     private void UpdateScrollSpeed()
     {
-        // Update the scroll speed based on time
         float speedDivider = 10f;
         ScrollSpeed = initialScrollSpeed + timer / speedDivider;
     }
@@ -132,18 +137,9 @@ public class GameManager : MonoBehaviour
         return highScore;
     }
 
-    public void ApplyBlancaYNegraEffect(float duration)
+    public int GetCurrentScore()
     {
-        timer = 0;
-        StartCoroutine(SlowDownScrollSpeed(duration));
-    }
-
-    private IEnumerator SlowDownScrollSpeed(float duration)
-    {
-        float originalSpeed = ScrollSpeed;
-        ScrollSpeed *= 0.3f;
-        yield return new WaitForSeconds(duration);
-        ScrollSpeed = originalSpeed;
+        return score;
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)

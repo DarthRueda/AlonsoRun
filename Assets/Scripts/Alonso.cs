@@ -10,6 +10,10 @@ public class Alonso : MonoBehaviour
     [SerializeField] private float radius;
     [SerializeField] private GameObject doubleJumpUI;
     [SerializeField] private GameObject invincibleUI;
+    [SerializeField] private AudioSource jumpSound;
+    [SerializeField] private AudioSource invincibleSong;
+    [SerializeField] private AudioSource deathSound;
+    private AudioSource mainCameraAudio;
     private Rigidbody2D aloRB;
     private Animator aloAnim;
     private bool canDoubleJump = false;
@@ -31,6 +35,8 @@ public class Alonso : MonoBehaviour
         {
             invincibleUI.SetActive(false);
         }
+
+        mainCameraAudio = Camera.main.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -49,6 +55,10 @@ public class Alonso : MonoBehaviour
             if (isGrounded)
             {
                 aloRB.AddForce(Vector2.up * upForce);
+                if (jumpSound != null)
+                {
+                    jumpSound.Play();
+                }
             }
             else if (hasPowerUp && !canDoubleJump)
             {
@@ -58,6 +68,10 @@ public class Alonso : MonoBehaviour
                 if (doubleJumpUI != null)
                 {
                     doubleJumpUI.SetActive(false);
+                }
+                if (jumpSound != null)
+                {
+                    jumpSound.Play();
                 }
             }
         }
@@ -71,6 +85,15 @@ public class Alonso : MonoBehaviour
                 if (invincibleUI != null)
                 {
                     invincibleUI.SetActive(false);
+                }
+
+                if (mainCameraAudio != null)
+                {
+                    mainCameraAudio.mute = false;
+                }
+                if (invincibleSong != null && invincibleSong.isPlaying)
+                {
+                    invincibleSong.Stop();
                 }
             }
         }
@@ -91,6 +114,11 @@ public class Alonso : MonoBehaviour
             }
             else
             {
+                if (deathSound != null)
+                {
+                    deathSound.Play();
+                }
+
                 GameManager.Instance.ShowGameOverScreen();
                 aloAnim.SetTrigger("Die");
                 Time.timeScale = 0f;
@@ -113,12 +141,22 @@ public class Alonso : MonoBehaviour
             {
                 invincibleUI.SetActive(true);
             }
+
+            if (mainCameraAudio != null)
+            {
+                mainCameraAudio.mute = true;
+            }
+            if (invincibleSong != null)
+            {
+                invincibleSong.Play();
+            }
+
             Destroy(collision.gameObject);
         }
-        else if (collision.gameObject.CompareTag("BlancaYNegra"))
-        {
-            GameManager.Instance.ApplyBlancaYNegraEffect(5f);
-            Destroy(collision.gameObject);
-        }
+    }
+
+    public bool IsInvincible()
+    {
+        return isInvincible;
     }
 }
