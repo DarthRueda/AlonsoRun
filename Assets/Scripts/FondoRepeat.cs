@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class FondoRepeat : MonoBehaviour
 {
@@ -8,12 +9,14 @@ public class FondoRepeat : MonoBehaviour
     [SerializeField] private GameObject invincibleFondoPrefab;
     private float spriteWidth;
     private Alonso alonso;
+    private bool isHistoriaScene;
 
     void Start()
     {
         alonso = FindObjectOfType<Alonso>();
         BoxCollider2D groundCollider = GetComponent<BoxCollider2D>();
         spriteWidth = groundCollider.size.x;
+        isHistoriaScene = SceneManager.GetActiveScene().name == "Historia";
     }
 
     void Update()
@@ -29,9 +32,29 @@ public class FondoRepeat : MonoBehaviour
         transform.position = new Vector2(transform.position.x + 2f * spriteWidth, transform.position.y);
 
         SpriteRenderer currentRenderer = GetComponent<SpriteRenderer>();
-        SpriteRenderer newRenderer;
+        SpriteRenderer newRenderer = null;
 
-        if (alonso != null && alonso.IsInvincible())
+        if (isHistoriaScene)
+        {
+            int score = GameManager.Instance != null ? GameManager.Instance.GetCurrentScore() : 0;
+            string[] fondoNames = { "MINARDI", "RENAULT", "MCLAREN", "FERRARI", "ALPINE", "ASTON" };
+            int fondoStage = Mathf.Min(score / 333, fondoNames.Length - 1);
+            string currentFondoName = fondoNames[fondoStage];
+            List<GameObject> stageFondos = new List<GameObject>();
+            foreach (var fondo in fondoPrefabs)
+            {
+                if (fondo != null && fondo.name.ToUpper().Contains(currentFondoName))
+                {
+                    stageFondos.Add(fondo);
+                }
+            }
+            if (stageFondos.Count > 0)
+            {
+                int idx = Random.Range(0, stageFondos.Count);
+                newRenderer = stageFondos[idx].GetComponent<SpriteRenderer>();
+            }
+        }
+        else if (alonso != null && alonso.IsInvincible())
         {
             newRenderer = invincibleFondoPrefab.GetComponent<SpriteRenderer>();
         }

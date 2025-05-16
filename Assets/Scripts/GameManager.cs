@@ -97,11 +97,37 @@ public class GameManager : MonoBehaviour
         if (scoreText != null)
             scoreText.text = string.Format("{0:00000}", score);
 
-        UpdateHighScore();
+        //Trigger Verstappen
+        if (SceneManager.GetActiveScene().name == "Historia" && score == 2000)
+        {
+            VerstappenManager verstappenManager = FindObjectOfType<VerstappenManager>();
+            if (verstappenManager != null)
+            {
+                verstappenManager.SpawnVerstappen();
+            }
+            Spawner spawner = FindObjectOfType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.IncreaseSpawnRate();
+            }
+            PowerSpawner powerSpawner = FindObjectOfType<PowerSpawner>();
+            if (powerSpawner != null)
+            {
+                powerSpawner.PreventInvenciblePowerUp(true);
+            }
+        }
+
+        if (SceneManager.GetActiveScene().name != "Historia")
+        {
+            UpdateHighScore();
+        }
     }
 
     private void UpdateHighScore()
     {
+        if (SceneManager.GetActiveScene().name == "Historia")
+            return;
+
         if (score > highScore)
         {
             highScore = score;
@@ -115,6 +141,13 @@ public class GameManager : MonoBehaviour
 
     private void LoadHighScore()
     {
+        if (SceneManager.GetActiveScene().name == "Historia")
+        {
+            if (recordText != null)
+                recordText.text = "";
+            return;
+        }
+
         highScore = PlayerPrefs.GetInt("HighScore", 0);
 
         if (recordText != null)
@@ -144,9 +177,8 @@ public class GameManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "Infinito")
+        if (scene.name == "Infinito" || scene.name == "Historia")
         {
-
             gameOverScreen = GameObject.Find("GameOverScreen");
             scoreText = GameObject.Find("Score")?.GetComponent<TMP_Text>();
             recordText = GameObject.Find("Record")?.GetComponent<TMP_Text>();
@@ -164,5 +196,12 @@ public class GameManager : MonoBehaviour
         timer = 0f;
         score = 0;
         SceneManager.LoadScene("Infinito");
+    }
+
+    public void StartHistoria()
+    {
+        timer = 0f;
+        score = 0;
+        SceneManager.LoadScene("Historia");
     }
 }

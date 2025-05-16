@@ -6,6 +6,7 @@ public class PowerSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] powerUps;
     private float powerUpSpawnInterval = 30f;
+    private bool preventInvencible = false;
 
     void Start()
     {
@@ -21,6 +22,8 @@ public class PowerSpawner : MonoBehaviour
 
             foreach (var powerUp in powerUps)
             {
+                if (preventInvencible && powerUp.CompareTag("Invencible"))
+                    continue;
                 if (powerUp.CompareTag("Invencible") || powerUp.CompareTag("DobleSalto"))
                 {
                     filteredPowerUps.Add(powerUp);
@@ -38,5 +41,10 @@ public class PowerSpawner : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         Destroy(collision.gameObject);
+    }
+
+    public void PreventInvenciblePowerUp(bool prevent)
+    {
+        preventInvencible = prevent;
     }
 }

@@ -153,6 +153,10 @@ public class Alonso : MonoBehaviour
 
             Destroy(collision.gameObject);
         }
+        else if (collision.gameObject.CompareTag("Verstappen"))
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene("Final");
+        }
     }
 
     public bool IsInvincible()
