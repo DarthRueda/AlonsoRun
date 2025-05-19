@@ -40,18 +40,26 @@ public class FondoRepeat : MonoBehaviour
             string[] fondoNames = { "MINARDI", "RENAULT", "MCLAREN", "FERRARI", "ALPINE", "ASTON" };
             int fondoStage = Mathf.Min(score / 333, fondoNames.Length - 1);
             string currentFondoName = fondoNames[fondoStage];
-            List<GameObject> stageFondos = new List<GameObject>();
-            foreach (var fondo in fondoPrefabs)
+
+            if (alonso != null && alonso.IsInvincible())
             {
-                if (fondo != null && fondo.name.ToUpper().Contains(currentFondoName))
-                {
-                    stageFondos.Add(fondo);
-                }
+                newRenderer = invincibleFondoPrefab.GetComponent<SpriteRenderer>();
             }
-            if (stageFondos.Count > 0)
+            else
             {
-                int idx = Random.Range(0, stageFondos.Count);
-                newRenderer = stageFondos[idx].GetComponent<SpriteRenderer>();
+                List<GameObject> stageFondos = new List<GameObject>();
+                foreach (var fondo in fondoPrefabs)
+                {
+                    if (fondo != null && fondo.name.ToUpper().Contains(currentFondoName))
+                    {
+                        stageFondos.Add(fondo);
+                    }
+                }
+                if (stageFondos.Count > 0)
+                {
+                    int idx = Random.Range(0, stageFondos.Count);
+                    newRenderer = stageFondos[idx].GetComponent<SpriteRenderer>();
+                }
             }
         }
         else if (alonso != null && alonso.IsInvincible())

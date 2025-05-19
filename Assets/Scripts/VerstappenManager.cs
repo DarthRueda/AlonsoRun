@@ -10,7 +10,7 @@ public class VerstappenManager : MonoBehaviour
 
     private int verstappenSpawnScore = -1;
     private int verstappenLastMoveScore = -1;
-    private float verstappenMoveStep = 5.0f; // 100px if 1 unit = 100px
+    private float verstappenMoveStep = 2.0f;
 
     // Start is called before the first frame update
     void Start()

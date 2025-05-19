@@ -115,6 +115,11 @@ public class GameManager : MonoBehaviour
             {
                 powerSpawner.PreventInvenciblePowerUp(true);
             }
+            OconSpawner oconSpawner = FindObjectOfType<OconSpawner>();
+            if (oconSpawner != null)
+            {
+                oconSpawner.enabled = false;
+            }
         }
 
         if (SceneManager.GetActiveScene().name != "Historia")
