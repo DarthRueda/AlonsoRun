@@ -10,9 +10,10 @@ public class ButtonHandler : MonoBehaviour
         {
             GameManager.Instance.RestartScene();
         }
-        else
-        {
-            Debug.LogError("GameManager.Instance no encontrado.");
-        }
+    }
+
+    public void OnMenuButtonClick()
+    {
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menu");
     }
 }

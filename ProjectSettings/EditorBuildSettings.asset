@@ -11,4 +11,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Infinito.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Inicio.unity
+    guid: aef19fc38f12d2b4b8d87926074f1f63
+  - enabled: 1
+    path: Assets/Scenes/Historia.unity
+    guid: b9a57a9ca30b28d419ce7c8ecea1d426
+  - enabled: 1
+    path: Assets/Scenes/Final.unity
+    guid: 0f7ff9992c3abe940b9870734e72a1ae
   m_configObjects: {}
