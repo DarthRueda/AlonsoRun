@@ -41,7 +41,24 @@ public class FondoRepeat : MonoBehaviour
             int fondoStage = Mathf.Min(score / 333, fondoNames.Length - 1);
             string currentFondoName = fondoNames[fondoStage];
 
-            if (alonso != null && alonso.IsInvincible())
+            // Si puntos >= 2000, buscar fondo que contenga REDBULL
+            if (score >= 2000)
+            {
+                List<GameObject> redbullFondos = new List<GameObject>();
+                foreach (var fondo in fondoPrefabs)
+                {
+                    if (fondo != null && fondo.name.ToUpper().Contains("REDBULL"))
+                    {
+                        redbullFondos.Add(fondo);
+                    }
+                }
+                if (redbullFondos.Count > 0)
+                {
+                    int idx = Random.Range(0, redbullFondos.Count);
+                    newRenderer = redbullFondos[idx].GetComponent<SpriteRenderer>();
+                }
+            }
+            else if (alonso != null && alonso.IsInvincible())
             {
                 newRenderer = invincibleFondoPrefab.GetComponent<SpriteRenderer>();
             }

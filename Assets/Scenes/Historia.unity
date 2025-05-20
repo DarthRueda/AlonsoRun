@@ -1530,6 +1530,7 @@ MonoBehaviour:
   - {fileID: 8319658828759385808, guid: fefcd49e1de138b4b9e521b54e6d7eeb, type: 3}
   - {fileID: 8053677890538480949, guid: fe3f263bb64f3004bb3f5125d4f39937, type: 3}
   - {fileID: 1104582716679584812, guid: def2da1d05f6f024fa35ec32ac4a5786, type: 3}
+  - {fileID: 7311094352962232793, guid: bf3e37b650099804197bbce6deae9069, type: 3}
   invincibleFondoPrefab: {fileID: 7694921132086966373, guid: 5768018fcea1ea140afc81e0394c1d17, type: 3}
 --- !u!61 &884186765
 BoxCollider2D:
@@ -1994,6 +1995,7 @@ MonoBehaviour:
   - {fileID: 8319658828759385808, guid: fefcd49e1de138b4b9e521b54e6d7eeb, type: 3}
   - {fileID: 8053677890538480949, guid: fe3f263bb64f3004bb3f5125d4f39937, type: 3}
   - {fileID: 1104582716679584812, guid: def2da1d05f6f024fa35ec32ac4a5786, type: 3}
+  - {fileID: 7311094352962232793, guid: bf3e37b650099804197bbce6deae9069, type: 3}
   invincibleFondoPrefab: {fileID: 7694921132086966373, guid: 5768018fcea1ea140afc81e0394c1d17, type: 3}
 --- !u!61 &1233477959
 BoxCollider2D:
@@ -2425,7 +2427,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -338, y: 454}
+  m_AnchoredPosition: {x: -387, y: 454}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1662200269
@@ -3204,7 +3206,7 @@ Transform:
   m_GameObject: {fileID: 2122410315}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.35, y: -1.91, z: 0}
+  m_LocalPosition: {x: -5.5, y: -1.91, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

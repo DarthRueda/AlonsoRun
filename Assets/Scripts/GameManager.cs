@@ -14,7 +14,6 @@ public class GameManager : MonoBehaviour
     private int highScore;
     private float timer;
     private float ScrollSpeed;
-    private bool resetOnHistoria = false;
 
     public static GameManager Instance { get; private set; }
 
@@ -99,7 +98,7 @@ public class GameManager : MonoBehaviour
             scoreText.text = string.Format("{0:00000}", score);
 
         //Trigger Verstappen
-        if (SceneManager.GetActiveScene().name == "Historia" && score == 200)
+        if (SceneManager.GetActiveScene().name == "Historia" && score == 2000)
         {
             VerstappenManager verstappenManager = FindObjectOfType<VerstappenManager>();
             if (verstappenManager != null)
@@ -196,12 +195,12 @@ public class GameManager : MonoBehaviour
             LoadHighScore();
         }
 
-        //Resetear punticacion y temporizador al cargar la escena Historia
-        if (scene.name == "Historia" && resetOnHistoria)
+        // Siempre resetear puntuación y temporizador al cargar la escena Historia
+        if (scene.name == "Historia")
         {
             timer = 0f;
             score = 0;
-            resetOnHistoria = false;
+            
         }
     }
 }
