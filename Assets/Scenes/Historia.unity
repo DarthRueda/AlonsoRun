@@ -2356,6 +2356,37 @@ Transform:
   - {fileID: 1142690782}
   m_Father: {fileID: 476461041}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1495521199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1495521200}
+  m_Layer: 0
+  m_Name: WarnOconSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1495521200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1495521199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.62, y: -3.26, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1509020563
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,7 +2743,9 @@ MonoBehaviour:
   obstacles:
   - {fileID: 3765436783571043495, guid: 8d3e93a254693774094ab7209b0f938e, type: 3}
   obstacleSpeed: 15
-  initialDelay: 40
+  initialDelay: 0
+  warnOconPrefab: {fileID: 9001874643717082893, guid: 42784660c45530b4c8f644922b5d0a6d, type: 3}
+  warnOconSpawnPoint: {fileID: 1495521200}
 --- !u!1 &1797621514
 GameObject:
   m_ObjectHideFlags: 0
@@ -3562,5 +3595,6 @@ SceneRoots:
   - {fileID: 476461041}
   - {fileID: 1530450723}
   - {fileID: 247357063}
+  - {fileID: 1495521200}
   - {fileID: 884186768}
   - {fileID: 1233477962}

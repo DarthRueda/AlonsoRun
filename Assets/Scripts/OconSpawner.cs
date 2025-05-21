@@ -6,8 +6,11 @@ public class OconSpawner : MonoBehaviour
     [SerializeField] private GameObject[] obstacles;
     [SerializeField] private float obstacleSpeed = 15f;
     [SerializeField] private float initialDelay = 40f;
+    [SerializeField] private GameObject warnOconPrefab;
+    [SerializeField] private Transform warnOconSpawnPoint;
 
     private Alonso alonso;
+    private GameObject currentWarnOcon;
 
     void Start()
     {
@@ -26,11 +29,37 @@ public class OconSpawner : MonoBehaviour
                 yield return null;
                 continue;
             }
-            SpawnObstacle();
-
             float waitTime = Random.Range(30f, 60f);
-            yield return new WaitForSeconds(waitTime);
+            if (warnOconPrefab != null)
+            {
+                yield return StartCoroutine(ShowWarnOcon(waitTime));
+            } else {
+                yield return new WaitForSeconds(waitTime - 3f);
+            }
+            SpawnObstacle();
+            yield return null;
         }
+    }
+
+    private IEnumerator ShowWarnOcon(float waitTime)
+    {
+        float warnTime = 3f;
+        yield return new WaitForSeconds(waitTime - warnTime);
+        Vector3 spawnPos = warnOconSpawnPoint != null ? warnOconSpawnPoint.position : transform.position;
+        currentWarnOcon = Instantiate(warnOconPrefab, spawnPos, Quaternion.identity);
+        float flashDuration = warnTime;
+        float flashInterval = 0.2f;
+        SpriteRenderer sr = currentWarnOcon.GetComponent<SpriteRenderer>();
+        float elapsed = 0f;
+        while (elapsed < flashDuration)
+        {
+            if (sr != null)
+                sr.enabled = !sr.enabled;
+            yield return new WaitForSeconds(flashInterval);
+            elapsed += flashInterval;
+        }
+        if (currentWarnOcon != null)
+            Destroy(currentWarnOcon);
     }
 
     private void SpawnObstacle()
