@@ -6,6 +6,7 @@ public class LogicaBotones : MonoBehaviour
 {
     [SerializeField] private Button btnInfinito;
     [SerializeField] private Button btnHistoria;
+    [SerializeField] private Button btnExit;
 
     private GameObject ayudaObject;
 
@@ -15,6 +16,8 @@ public class LogicaBotones : MonoBehaviour
             btnInfinito = GameObject.Find("BtnInfinito")?.GetComponent<Button>();
         if (btnHistoria == null)
             btnHistoria = GameObject.Find("BtnHistoria")?.GetComponent<Button>();
+        if (btnExit == null)
+            btnExit = GameObject.Find("BtnExit")?.GetComponent<Button>();
     }
 
     private void OnEnable()
@@ -28,6 +31,11 @@ public class LogicaBotones : MonoBehaviour
         {
             btnHistoria.onClick.RemoveAllListeners();
             btnHistoria.onClick.AddListener(OnHistoriaClicked);
+        }
+        if (btnExit != null)
+        {
+            btnExit.onClick.RemoveAllListeners();
+            btnExit.onClick.AddListener(OnExitClicked);
         }
     }
 
@@ -130,5 +138,14 @@ public class LogicaBotones : MonoBehaviour
                 canvas.gameObject.SetActive(false);
             }
         }
+    }
+
+    public void OnExitClicked()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
     }
 }

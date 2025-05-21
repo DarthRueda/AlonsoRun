@@ -124,16 +124,20 @@ public class Alonso : MonoBehaviour
                 Time.timeScale = 0f;
             }
         }
-        else if (collision.gameObject.CompareTag("DobleSalto"))
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("DobleSalto"))
         {
             hasPowerUp = true;
             if (doubleJumpUI != null)
             {
                 doubleJumpUI.SetActive(true);
             }
-            Destroy(collision.gameObject);
+            Destroy(other.gameObject);
         }
-        else if (collision.gameObject.CompareTag("Invencible"))
+        else if (other.CompareTag("Invencible"))
         {
             isInvincible = true;
             invincibleTimer = invincibleDuration;
@@ -151,9 +155,16 @@ public class Alonso : MonoBehaviour
                 invincibleSong.Play();
             }
 
-            Destroy(collision.gameObject);
+            
+            GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstaculo");
+            foreach (GameObject obstacle in obstacles)
+            {
+                Destroy(obstacle);
+            }
+
+            Destroy(other.gameObject);
         }
-        else if (collision.gameObject.CompareTag("Verstappen"))
+        else if (other.CompareTag("Verstappen"))
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("Final");
         }

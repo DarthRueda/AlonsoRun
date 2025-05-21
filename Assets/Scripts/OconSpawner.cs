@@ -4,11 +4,14 @@ using UnityEngine;
 public class OconSpawner : MonoBehaviour
 {
     [SerializeField] private GameObject[] obstacles;
-    [SerializeField] private float obstacleSpeed = 20f;
-    [SerializeField] private float initialDelay = 10f;
+    [SerializeField] private float obstacleSpeed = 15f;
+    [SerializeField] private float initialDelay = 40f;
+
+    private Alonso alonso;
 
     void Start()
     {
+        alonso = FindObjectOfType<Alonso>();
         StartCoroutine(StartSpawningWithDelay());
     }
 
@@ -18,6 +21,11 @@ public class OconSpawner : MonoBehaviour
 
         while (true)
         {
+            if (alonso != null && alonso.IsInvincible())
+            {
+                yield return null;
+                continue;
+            }
             SpawnObstacle();
 
             float waitTime = Random.Range(30f, 60f);

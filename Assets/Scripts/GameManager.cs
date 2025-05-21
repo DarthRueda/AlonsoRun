@@ -53,6 +53,11 @@ public class GameManager : MonoBehaviour
     {
         UpdateScore();
         UpdateScrollSpeed();
+
+        if (gameOverScreen != null && gameOverScreen.activeInHierarchy && Input.GetKeyDown(KeyCode.Space))
+        {
+            RestartScene();
+        }
     }
 
     public void ShowGameOverScreen()
